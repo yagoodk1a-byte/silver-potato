@@ -97,15 +97,12 @@ def calculate_chests(text):
 
         display_name = format_lot_name(lot_key)
 
-
-        data.append(
-            {
-                "sort": lot_number,
-                "text":
-                    f"{display_name}: {count}\n"
-                    f"➜ {'/'.join(map(str, multiplied))}"
-            }
-        )
+data.append(
+    {
+        "sort": lot_number,
+        "text": f"{display_name}: {count} - {'/'.join(map(str, multiplied))}"
+    }
+)
 
 
     if not data:
@@ -121,36 +118,22 @@ def calculate_chests(text):
 
     result = []
 
-    result.append("📦 Роспись\n")
+   result = []
 
+# Лоты
+for item in data:
+    result.append(item["text"])
 
-    for item in data:
-        result.append(
-            item["text"]
-        )
-        result.append("")
+# Итоги
+if totals:
+    result.append("")
+    icons = ["✅", "⚡", "❓"]
 
+    for i, value in enumerate(totals):
+        icon = icons[i] if i < len(icons) else f"{i + 1}."
+        result.append(f"{icon} - {value}")
 
-    # итог
-    if totals:
-
-        result.append(
-            "━━━━━━━━━━━━━━"
-        )
-
-        result.append(
-            "\n📊 Итого\n"
-        )
-
-
-        for index, value in enumerate(totals):
-
-            result.append(
-                f"📦 {index + 1} сундук: {value}"
-            )
-
-
-    return "\n".join(result)
+return "\n".join(result)
 
 
 
