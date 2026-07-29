@@ -20,7 +20,6 @@ def find_lot(lot):
     return None
 
 
-
 def format_lot_name(lot_key):
     """
     Убираем /400 из отображения
@@ -32,7 +31,6 @@ def format_lot_name(lot_key):
     return lot_key
 
 
-
 def calculate_chests(text):
 
     lines = text.split("\n")
@@ -42,7 +40,10 @@ def calculate_chests(text):
 
     for line in lines:
 
-        match = re.search(r'([\d/]+)\s*:\s*(\d+)', line)
+        match = re.search(
+            r'([\d/]+)\s*:\s*(\d+)',
+            line
+        )
 
         if not match:
             continue
@@ -61,75 +62,53 @@ def calculate_chests(text):
 
         chests = lots[lot_key]
 
-        multiplied = [x * count for x in chests]
+        multiplied = [
+            x * count for x in chests
+        ]
 
+        # создаём место под итог
         while len(totals) < len(multiplied):
             totals.append(0)
 
+        # считаем итог
         for i, value in enumerate(multiplied):
             totals[i] += value
 
-        lot_number = int(lot_key.split("/")[0])
+        # номер лота для сортировки
+        lot_number = int(
+            lot_key.split("/")[0]
+        )
+
         display_name = format_lot_name(lot_key)
 
         data.append({
             "sort": lot_number,
-            "text": f"{display_name}: {count} - {'/'.join(map(str, multiplied))}"
+            "text": f"{display_name}:{count} - {'/'.join(map(str, multiplied))}"
         })
 
     if not data:
         return None
 
+    # сортировка по номеру лота
     data.sort(key=lambda x: x["sort"])
 
     result = []
 
+    # список лотов
     for item in data:
         result.append(item["text"])
 
+    # итоги
     if totals:
         result.append("")
 
         icons = ["✅", "⚡", "❓"]
 
         for i, value in enumerate(totals):
-            icon = icons[i] if i < len(icons) else f"{i + 1}."
+            icon = icons[i] if i < len(icons) else "📦"
             result.append(f"{icon} - {value}")
 
     return "\n".join(result)
-
-
-    if not data:
-        return None
-
-
-
-    # сортируем лоты
-    data.sort(
-        key=lambda x: x["sort"]
-    )
-
-
-    result = []
-
-   result = []
-
-# Лоты
-for item in data:
-    result.append(item["text"])
-
-# Итоги
-if totals:
-    result.append("")
-    icons = ["✅", "⚡", "❓"]
-
-    for i, value in enumerate(totals):
-        icon = icons[i] if i < len(icons) else f"{i + 1}."
-        result.append(f"{icon} - {value}")
-
-return "\n".join(result)
-
-
 
 
 def calculate_numbers(text):
@@ -139,31 +118,25 @@ def calculate_numbers(text):
         text
     )
 
-
     if not numbers:
         return None
-
 
     numbers = [
         float(x)
         for x in numbers
     ]
 
-
     positive = sum(
         x for x in numbers
         if x > 0
     )
-
 
     negative = sum(
         x for x in numbers
         if x < 0
     )
 
-
     total = positive + negative
-
 
     return (
         f"➕ Положительные: {positive}\n"
