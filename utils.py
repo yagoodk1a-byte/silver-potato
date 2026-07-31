@@ -83,7 +83,7 @@ def calculate_chests(text):
 
         data.append({
             "sort": lot_number,
-            "text": f"{display_name}:{count} - {'/'.join(map(str, multiplied))}"
+            "text": f"{display_name}: {count} - {'/'.join(map(str, multiplied))}"
         })
 
     if not data:
