@@ -1,1 +1,2 @@
-TOKEN = "8358575962:AAFscZFM5pElS0AWZs_1kBZFnH-NyLwf034"
+import os
+BOT_TOKEN = os.detenv("8358575962:AAEc4tLrbOOm5Dbm1pttawejOz0NOgnQryQ")
